@@ -12,13 +12,14 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("TEST");
         Group root = new Group();
-        Scene scene = new Scene(root, 300, 250, Color.WHITE);
 
-        Cell c = new Cell(0,0);
-        Cell c2 = new Cell(0,1);
+        final Board board = new Board(34);
 
-        root.getChildren().add(c);
-        root.getChildren().add(c2);
+        for (Cell c: board.getCells()) {
+            root.getChildren().add(c);
+        }
+        Scene scene = new Scene(root, board.getSize(), board.getSize(), Color.WHITE);
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
