@@ -13,13 +13,13 @@ public class Main extends Application {
         primaryStage.setTitle("TEST");
         Group root = new Group();
 
-        final Board board = new Board(34);
+        final Board board = new Board(20);
 
-        for (Cell c: board.getCells()) {
+        for (Cell c : board.getCells()) {
             root.getChildren().add(c);
         }
         Scene scene = new Scene(root, board.getSize(), board.getSize(), Color.WHITE);
-
+        board.test();
         primaryStage.setScene(scene);
         primaryStage.show();
     }
