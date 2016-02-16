@@ -1,10 +1,8 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -22,13 +20,10 @@ public class Main extends Application {
         }
         Scene scene = new Scene(root, board.getSize(), board.getSize(), Color.WHITE);
 
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case R:  board.generateRandomBoard(); break;
-                    case SPACE: board.toggleGame(); break;
-                }
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case R:  board.generateRandomBoard(); break;
+                case SPACE: board.toggleGame(); break;
             }
         });
 
