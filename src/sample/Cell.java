@@ -17,7 +17,7 @@ public class Cell extends Rectangle {
         super(SIZE, SIZE);
         this.pos_x = pos_x;
         this.pos_y = pos_y;
-        setStroke(Color.BLACK);
+        setStroke(Color.web("#424242"));
         setStrokeWidth(1);
         setFill(Color.GREY);
         setPosition(pos_x, pos_y);
@@ -78,7 +78,7 @@ public class Cell extends Rectangle {
 
     private void changeColor() {
         if (isAlive) {
-            this.setFill(Color.WHITE);
+            this.setFill(Color.web("#18bbff"));
         } else {
             this.setFill(Color.GRAY);
         }
