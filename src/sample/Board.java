@@ -8,6 +8,7 @@ public class Board {
 
     private Cell[][] cells;
     private final int boardSize;
+    private boolean gameStarted = false;
 
     public Board(int boardSize) {
         this.boardSize = boardSize;
@@ -39,19 +40,6 @@ public class Board {
         return cells[pos_x][pos_y];
     }
 
-    public void test(){
-        spawnGleiter();
-        nextRound();
-    }
-
-    private void spawnGleiter(){
-        cells[1][0].toggleAlive();
-        cells[2][1].toggleAlive();
-        cells[0][2].toggleAlive();
-        cells[1][2].toggleAlive();
-        cells[2][2].toggleAlive();
-    }
-
     private void calculateNextRound(){
         for (Cell cell: getCells()) {
             int neighboursSize = getCountAliveNeighbours(cell);
@@ -66,10 +54,13 @@ public class Board {
         }
     }
 
+    public void startGame(){
+        if(!gameStarted){
+            nextRound();
+        }
+    }
+
     private void nextRound(){
-
-
-
         final Task task = new Task<Void>() {
             @Override
             public Void call() {
@@ -80,7 +71,7 @@ public class Board {
                 }
 
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(55);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -90,7 +81,6 @@ public class Board {
                 return null;
             }
         };
-
         new Thread(task).start();
     }
 

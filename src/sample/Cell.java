@@ -18,7 +18,7 @@ public class Cell extends Rectangle {
         this.pos_x = pos_x;
         this.pos_y = pos_y;
         setStroke(Color.BLACK);
-        setStrokeWidth(1.0);
+        setStrokeWidth(1);
         setFill(Color.GREY);
         setPosition(pos_x, pos_y);
 
