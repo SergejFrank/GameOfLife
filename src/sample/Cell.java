@@ -48,7 +48,7 @@ public class Cell extends Rectangle {
         changeColor();
     }
 
-    public void setAlive() {
+    public void revive() {
         isAliveNextRound = true;
     }
 

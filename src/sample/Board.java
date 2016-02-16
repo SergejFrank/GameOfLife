@@ -47,11 +47,11 @@ public class Board {
             int neighboursSize = getCountAliveNeighbours(cell);
 
             if (cell.isAlive() && neighboursSize >= 2 && neighboursSize <= 3){
-                cell.setAlive();
+                cell.revive();
             }else if((cell.isAlive() && neighboursSize < 2) || neighboursSize > 3){
                 cell.kill();
             }else if(!cell.isAlive() && neighboursSize == 3){
-                cell.setAlive();
+                cell.revive();
             }
         }
     }
@@ -75,28 +75,37 @@ public class Board {
         }
     }
 
+
+    public void stopGame(){
+        gameStarted = false;
+    }
+
     private void nextRound(){
-        final Task task = new Task<Void>() {
-            @Override
-            public Void call() {
 
-                calculateNextRound();
-                for (Cell cell: getCells()) {
-                    cell.nextRound();
+        if(gameStarted) {
+            final Task task = new Task<Void>() {
+                @Override
+                public Void call() {
+
+                    calculateNextRound();
+                    for (Cell cell : getCells()) {
+                        cell.nextRound();
+                    }
+
+                    try {
+                        Thread.sleep(55);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    nextRound();
+
+                    return null;
                 }
+            };
+            new Thread(task).start();
+        }
 
-                try {
-                    Thread.sleep(55);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                nextRound();
-
-                return null;
-            }
-        };
-        new Thread(task).start();
     }
 
 

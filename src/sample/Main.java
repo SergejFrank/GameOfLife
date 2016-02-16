@@ -27,8 +27,8 @@ public class Main extends Application {
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
                     case UP:    board.startGame(); break;
-                    case DOWN:    board.startRandomGame(); break;
-
+                    case DOWN:  board.startRandomGame(); break;
+                    case SPACE:  board.stopGame(); break;
                 }
             }
         });
