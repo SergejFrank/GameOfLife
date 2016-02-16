@@ -3,12 +3,14 @@ package sample;
 import javafx.concurrent.Task;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Board {
 
     private Cell[][] cells;
     private final int boardSize;
     private boolean gameStarted = false;
+    private static Random rnd = new Random();
 
     public Board(int boardSize) {
         this.boardSize = boardSize;
@@ -56,6 +58,19 @@ public class Board {
 
     public void startGame(){
         if(!gameStarted){
+            gameStarted = !gameStarted;
+            nextRound();
+        }
+    }
+
+    public void startRandomGame(){
+        if(!gameStarted){
+            gameStarted = !gameStarted;
+            for (Cell cell: getCells()) {
+                if(rnd.nextBoolean()){
+                    cell.toggleAlive();
+                }
+            }
             nextRound();
         }
     }

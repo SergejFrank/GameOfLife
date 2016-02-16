@@ -26,7 +26,8 @@ public class Main extends Application {
             @Override
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
-                    case UP:    board.startGame();
+                    case UP:    board.startGame(); break;
+                    case DOWN:    board.startRandomGame(); break;
 
                 }
             }
