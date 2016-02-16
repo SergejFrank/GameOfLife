@@ -7,7 +7,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Cell extends Rectangle {
 
-    private static final int SIZE = 20;
+    private static final int SIZE = 10;
     private boolean isAlive = false;
     private boolean isAliveNextRound = false;
     private final int pos_x;
@@ -54,6 +54,10 @@ public class Cell extends Rectangle {
 
     public void kill() {
         isAliveNextRound = false;
+    }
+
+    public boolean isAlive(){
+        return isAlive;
     }
 
     private void changeColor() {

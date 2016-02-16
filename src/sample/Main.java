@@ -13,7 +13,7 @@ public class Main extends Application {
         primaryStage.setTitle("TEST");
         Group root = new Group();
 
-        final Board board = new Board(20);
+        final Board board = new Board(40);
 
         for (Cell c : board.getCells()) {
             root.getChildren().add(c);

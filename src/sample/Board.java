@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.concurrent.Task;
+
 import java.util.ArrayList;
 
 public class Board {
@@ -38,12 +40,71 @@ public class Board {
     }
 
     public void test(){
-        ArrayList<Cell> neighbours =  getNeighbours(cells[0][0]);
+        spawnGleiter();
+        nextRound();
+    }
 
-        for (Cell neighbour:neighbours) {
-            neighbour.toggleAlive();
+    private void spawnGleiter(){
+        cells[1][0].toggleAlive();
+        cells[2][1].toggleAlive();
+        cells[0][2].toggleAlive();
+        cells[1][2].toggleAlive();
+        cells[2][2].toggleAlive();
+    }
+
+    private void calculateNextRound(){
+        for (Cell cell: getCells()) {
+            int neighboursSize = getCountAliveNeighbours(cell);
+
+            if (cell.isAlive() && neighboursSize >= 2 && neighboursSize <= 3){
+                cell.setAlive();
+            }else if((cell.isAlive() && neighboursSize < 2) || neighboursSize > 3){
+                cell.kill();
+            }else if(!cell.isAlive() && neighboursSize == 3){
+                cell.setAlive();
+            }
         }
     }
+
+    private void nextRound(){
+
+
+
+        final Task task = new Task<Void>() {
+            @Override
+            public Void call() {
+
+                calculateNextRound();
+                for (Cell cell: getCells()) {
+                    cell.nextRound();
+                }
+
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                nextRound();
+
+                return null;
+            }
+        };
+
+        new Thread(task).start();
+    }
+
+
+    private int getCountAliveNeighbours(Cell cell){
+        int aliveNeighbours = 0;
+        for (Cell neighbourCell:getNeighbours(cell)) {
+            if(neighbourCell.isAlive()){
+                aliveNeighbours++;
+            }
+        }
+        return aliveNeighbours;
+    };
+
 
     private ArrayList<Cell> getNeighbours(Cell cell) {
 
