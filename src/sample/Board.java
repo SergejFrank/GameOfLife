@@ -3,6 +3,7 @@ package sample;
 import javafx.concurrent.Task;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Board {
@@ -22,37 +23,9 @@ public class Board {
                 cells[x][y] = new Cell(x, y);
             }
         }
-    }
 
-    public ArrayList<Cell> getCells() {
-        ArrayList<Cell> flattendCells = new ArrayList<>();
-        for (Cell[] cellsRow : cells) {
-            for (Cell cell : cellsRow) {
-                flattendCells.add(cell);
-            }
-        }
-        return flattendCells;
-    }
-
-    public int getSize() {
-        return boardSize * cells[0][0].getCellSize();
-    }
-
-    private Cell getCell(int pos_x, int pos_y) {
-        return cells[pos_x][pos_y];
-    }
-
-    private void calculateNextRound(){
         for (Cell cell: getCells()) {
-            int neighboursSize = getCountAliveNeighbours(cell);
-
-            if (cell.isAlive() && neighboursSize >= 2 && neighboursSize <= 3){
-                cell.revive();
-            }else if((cell.isAlive() && neighboursSize < 2) || neighboursSize > 3){
-                cell.kill();
-            }else if(!cell.isAlive() && neighboursSize == 3){
-                cell.revive();
-            }
+            cell.setNeighbours(getNeighbours(cell));
         }
     }
 
@@ -69,8 +42,29 @@ public class Board {
             }
     }
 
-    private void nextRound(){
+    public ArrayList<Cell> getCells() {
+        ArrayList<Cell> flattendCells = new ArrayList<>();
+        for (Cell[] cellsRow : cells) {
+            Collections.addAll(flattendCells, cellsRow);
+        }
+        return flattendCells;
+    }
 
+    public int getBoardSize() {
+        return boardSize * cells[0][0].getCellSize();
+    }
+
+    private Cell getCell(int pos_x, int pos_y) {
+        return cells[pos_x][pos_y];
+    }
+
+    private void calculateNextRound(){
+        for (Cell cell: getCells()) {
+            cell.calculateNextRound();
+        }
+    }
+
+    private void nextRound(){
         if(gameStarted) {
             final Task task = new Task<Void>() {
                 @Override
@@ -97,20 +91,7 @@ public class Board {
 
     }
 
-
-    private int getCountAliveNeighbours(Cell cell){
-        int aliveNeighbours = 0;
-        for (Cell neighbourCell:getNeighbours(cell)) {
-            if(neighbourCell.isAlive()){
-                aliveNeighbours++;
-            }
-        }
-        return aliveNeighbours;
-    };
-
-
     private ArrayList<Cell> getNeighbours(Cell cell) {
-
         ArrayList<Cell> neighbours = new ArrayList<>();
         int[] cellPos = cell.getPos();
         int pos_x = cellPos[0];

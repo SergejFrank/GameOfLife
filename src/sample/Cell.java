@@ -1,9 +1,8 @@
 package sample;
 
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import java.util.ArrayList;
 
 public class Cell extends Rectangle {
 
@@ -12,6 +11,7 @@ public class Cell extends Rectangle {
     private boolean isAliveNextRound = false;
     private final int pos_x;
     private final int pos_y;
+    private ArrayList<Cell> neighbours;
 
     public Cell(int pos_x, int pos_y) {
         super(SIZE, SIZE);
@@ -22,21 +22,11 @@ public class Cell extends Rectangle {
         setFill(Color.GREY);
         setPosition(pos_x, pos_y);
 
-        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent t) {
-                toggleAlive();
-            }
-        });
+        this.setOnMouseClicked(t -> toggleAlive());
     }
 
     public int[] getPos() {
         return new int[]{pos_x, pos_y};
-    }
-
-    private void setPosition(int pos_x, int pos_y) {
-        setTranslateX(pos_x * SIZE);
-        setTranslateY(pos_y * SIZE);
     }
 
     public int getCellSize() {
@@ -48,11 +38,37 @@ public class Cell extends Rectangle {
         changeColor();
     }
 
-    public void revive() {
+    public void nextRound() {
+        isAlive = isAliveNextRound;
+        changeColor();
+    }
+
+    public void calculateNextRound(){
+        int neighboursSize = getCountAliveNeighbours();
+
+        if (isAlive() && neighboursSize >= 2 && neighboursSize <= 3){
+            revive();
+        }else if((isAlive() && neighboursSize < 2) || neighboursSize > 3){
+            kill();
+        }else if(!isAlive() && neighboursSize == 3){
+            revive();
+        }
+    }
+
+    public void setNeighbours(ArrayList<Cell> neighbours){
+        this.neighbours = neighbours;
+    }
+
+    private void setPosition(int pos_x, int pos_y) {
+        setTranslateX(pos_x * SIZE);
+        setTranslateY(pos_y * SIZE);
+    }
+
+    private void revive() {
         isAliveNextRound = true;
     }
 
-    public void kill() {
+    private void kill() {
         isAliveNextRound = false;
     }
 
@@ -68,8 +84,13 @@ public class Cell extends Rectangle {
         }
     }
 
-    public void nextRound() {
-        isAlive = isAliveNextRound;
-        changeColor();
+    private int getCountAliveNeighbours(){
+        int aliveNeighbours = 0;
+        for (Cell neighbourCell:neighbours) {
+            if(neighbourCell.isAlive()){
+                aliveNeighbours++;
+            }
+        }
+        return aliveNeighbours;
     }
 }

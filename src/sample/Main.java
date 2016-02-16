@@ -18,7 +18,7 @@ public class Main extends Application {
         for (Cell c : board.getCells()) {
             root.getChildren().add(c);
         }
-        Scene scene = new Scene(root, board.getSize(), board.getSize(), Color.WHITE);
+        Scene scene = new Scene(root, board.getBoardSize(), board.getBoardSize(), Color.WHITE);
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
