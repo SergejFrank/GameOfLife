@@ -56,28 +56,17 @@ public class Board {
         }
     }
 
-    public void startGame(){
-        if(!gameStarted){
+    public void toggleGame(){
             gameStarted = !gameStarted;
             nextRound();
-        }
     }
 
-    public void startRandomGame(){
-        if(!gameStarted){
-            gameStarted = !gameStarted;
+    public void generateRandomBoard(){
             for (Cell cell: getCells()) {
                 if(rnd.nextBoolean()){
                     cell.toggleAlive();
                 }
             }
-            nextRound();
-        }
-    }
-
-
-    public void stopGame(){
-        gameStarted = false;
     }
 
     private void nextRound(){
