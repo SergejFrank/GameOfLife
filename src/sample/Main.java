@@ -9,16 +9,14 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Game Of Life");
-        Group root = new Group();
+    public void start(Stage stage) throws Exception {
+        stage.setTitle("Game Of Life");
 
+        Group cellGroup = new Group();
         final Board board = new Board(40);
+        cellGroup.getChildren().addAll(board.getCells());
 
-        for (Cell c : board.getCells()) {
-            root.getChildren().add(c);
-        }
-        Scene scene = new Scene(root, board.getBoardSize(), board.getBoardSize(), Color.WHITE);
+        Scene scene = new Scene(cellGroup, board.getBoardSize(), board.getBoardSize(), Color.WHITE);
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -27,8 +25,8 @@ public class Main extends Application {
             }
         });
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        stage.setScene(scene);
+        stage.show();
     }
 
     public static void main(String[] args) {
