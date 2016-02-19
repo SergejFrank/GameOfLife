@@ -91,7 +91,45 @@ public class Board {
 
     }
 
-    private ArrayList<Cell> getNeighbours(Cell cell) {
+    private ArrayList<Cell> getNeighbours(Cell cell){
+        int[] cellPos = cell.getPos();
+        int pos_x = cellPos[0];
+        int pos_y = cellPos[1];
+
+        int pos_x2 = pos_x - 1;
+        int pos_x3 = pos_x + 1;
+        int pos_y2 = pos_y - 1;
+        int pos_y3 = pos_y + 1;
+        if (pos_x2 == -1) {
+            pos_x2 = boardSize - 1;
+        }
+        if (pos_x3 == boardSize) {
+            pos_x3 = 0;
+        }
+        if (pos_y2 == -1) {
+            pos_y2 = boardSize - 1;
+        }
+        if (pos_y3 == boardSize){
+                pos_y3 = 0;
+        }
+
+        ArrayList<Cell> neighbours = new ArrayList<>();
+
+        neighbours.add(cells[pos_x2][pos_y2]);
+        neighbours.add(cells[pos_x2][pos_y]);
+        neighbours.add(cells[pos_x2][pos_y3]);
+        neighbours.add(cells[pos_x][pos_y2]);
+        neighbours.add(cells[pos_x][pos_y3]);
+        neighbours.add(cells[pos_x3][pos_y2]);
+        neighbours.add(cells[pos_x3][pos_y]);
+        neighbours.add(cells[pos_x3][pos_y3]);
+
+        return neighbours;
+
+
+    }
+
+    private ArrayList<Cell> getNeighboursOld(Cell cell) {
         ArrayList<Cell> neighbours = new ArrayList<>();
         int[] cellPos = cell.getPos();
         int pos_x = cellPos[0];
