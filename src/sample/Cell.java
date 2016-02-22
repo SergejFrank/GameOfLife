@@ -22,7 +22,11 @@ public class Cell extends Rectangle {
         setFill(Color.GREY);
         setPosition(pos_x, pos_y);
 
-        this.setOnMouseClicked(t -> toggleAlive());
+        this.setOnMouseClicked(event -> toggleAlive());
+
+        this.setOnDragDetected(event -> this.startFullDrag());
+
+        this.setOnMouseDragEntered(event -> toggleAlive());
     }
 
     public int[] getPos() {
