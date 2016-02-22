@@ -76,6 +76,12 @@ public class Cell extends Rectangle {
         isAliveNextRound = false;
     }
 
+    public void suicide(){
+        isAlive = false;
+        isAliveNextRound = false;
+        changeColor();
+    }
+
     public boolean isAlive(){
         return isAlive;
     }
