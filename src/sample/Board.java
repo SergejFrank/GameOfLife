@@ -1,10 +1,10 @@
 package sample;
 
-import javafx.concurrent.Task;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+
+import javafx.concurrent.Task;
 
 public class Board {
 
@@ -24,26 +24,26 @@ public class Board {
             }
         }
 
-        for (Cell cell: getCells()) {
+        for (Cell cell : getCells()) {
             cell.setNeighbours(getNeighbours(cell));
         }
     }
 
-    public void toggleGame(){
-            gameStarted = !gameStarted;
-            nextRound();
+    public void toggleGame() {
+        gameStarted = !gameStarted;
+        nextRound();
     }
 
-    public void pauseGame(){
+    public void pauseGame() {
         gameStarted = false;
     }
 
-    public void generateRandomBoard(){
-            for (Cell cell: getCells()) {
-                if(rnd.nextBoolean()){
-                    cell.toggleAlive();
-                }
+    public void generateRandomBoard() {
+        for (Cell cell : getCells()) {
+            if (rnd.nextBoolean()) {
+                cell.toggleAlive();
             }
+        }
     }
 
     public ArrayList<Cell> getCells() {
@@ -62,14 +62,14 @@ public class Board {
         return cells[pos_x][pos_y];
     }
 
-    private void calculateNextRound(){
-        for (Cell cell: getCells()) {
+    private void calculateNextRound() {
+        for (Cell cell : getCells()) {
             cell.calculateNextRound();
         }
     }
 
-    private void nextRound(){
-        if(gameStarted) {
+    private void nextRound() {
+        if (gameStarted) {
             final Task task = new Task<Void>() {
                 @Override
                 public Void call() {
@@ -92,30 +92,17 @@ public class Board {
             };
             new Thread(task).start();
         }
-
     }
 
-    private ArrayList<Cell> getNeighbours(Cell cell){
+    private ArrayList<Cell> getNeighbours(Cell cell) {
         int[] cellPos = cell.getPos();
         int pos_x = cellPos[0];
         int pos_y = cellPos[1];
 
-        int pos_x2 = pos_x - 1;
-        int pos_x3 = pos_x + 1;
-        int pos_y2 = pos_y - 1;
-        int pos_y3 = pos_y + 1;
-        if (pos_x2 == -1) {
-            pos_x2 = boardSize - 1;
-        }
-        if (pos_x3 == boardSize) {
-            pos_x3 = 0;
-        }
-        if (pos_y2 == -1) {
-            pos_y2 = boardSize - 1;
-        }
-        if (pos_y3 == boardSize){
-                pos_y3 = 0;
-        }
+        int pos_x2 = Math.floorMod(pos_x - 1, boardSize);
+        int pos_x3 = Math.floorMod(pos_x + 1, boardSize);
+        int pos_y2 = Math.floorMod(pos_y - 1, boardSize);
+        int pos_y3 = Math.floorMod(pos_y + 1, boardSize);
 
         ArrayList<Cell> neighbours = new ArrayList<>();
 
@@ -129,8 +116,6 @@ public class Board {
         neighbours.add(cells[pos_x3][pos_y3]);
 
         return neighbours;
-
-
     }
 
     private ArrayList<Cell> getNeighboursOld(Cell cell) {
@@ -145,27 +130,27 @@ public class Board {
 
             if (pos_y > 0) {
                 neighbours.add(getCell(pos_x - 1, pos_y - 1));
-            }else if(pos_y == 0){
+            } else if (pos_y == 0) {
                 neighbours.add(getCell(pos_x - 1, boardSize - 1));
             }
 
             if (pos_y < boardSize - 1) {
                 neighbours.add(getCell(pos_x - 1, pos_y + 1));
-            }else if(pos_y == boardSize - 1){
+            } else if (pos_y == boardSize - 1) {
                 neighbours.add(getCell(pos_x - 1, 0));
             }
-        }else if(pos_x == 0){
+        } else if (pos_x == 0) {
             neighbours.add(getCell(boardSize - 1, pos_y));
 
             if (pos_y > 0) {
                 neighbours.add(getCell(boardSize - 1, pos_y - 1));
-            }else if(pos_y == 0){
+            } else if (pos_y == 0) {
                 neighbours.add(getCell(boardSize - 1, boardSize - 1));
             }
 
             if (pos_y < boardSize - 1) {
                 neighbours.add(getCell(boardSize - 1, pos_y + 1));
-            }else if(pos_y == boardSize - 1){
+            } else if (pos_y == boardSize - 1) {
                 neighbours.add(getCell(boardSize - 1, 0));
             }
         }
@@ -176,27 +161,27 @@ public class Board {
 
             if (pos_y > 0) {
                 neighbours.add(getCell(pos_x + 1, pos_y - 1));
-            }else if(pos_y == 0){
+            } else if (pos_y == 0) {
                 neighbours.add(getCell(pos_x + 1, boardSize - 1));
             }
 
             if (pos_y < boardSize - 1) {
                 neighbours.add(getCell(pos_x + 1, pos_y + 1));
-            }else if(pos_y == boardSize - 1){
+            } else if (pos_y == boardSize - 1) {
                 neighbours.add(getCell(pos_x + 1, 0));
             }
-        }else if(pos_x == boardSize - 1){
+        } else if (pos_x == boardSize - 1) {
             neighbours.add(getCell(0, pos_y));
 
             if (pos_y > 0) {
                 neighbours.add(getCell(0, pos_y - 1));
-            }else if(pos_y == 0){
+            } else if (pos_y == 0) {
                 neighbours.add(getCell(0, boardSize - 1));
             }
 
             if (pos_y < boardSize - 1) {
                 neighbours.add(getCell(0, pos_y + 1));
-            }else if(pos_y == boardSize - 1){
+            } else if (pos_y == boardSize - 1) {
                 neighbours.add(getCell(0, 0));
             }
         }
@@ -204,14 +189,14 @@ public class Board {
         // Top cell
         if (pos_y > 0) {
             neighbours.add(getCell(pos_x, pos_y - 1));
-        }else if(pos_y == 0){
+        } else if (pos_y == 0) {
             neighbours.add(getCell(pos_x, boardSize - 1));
         }
 
         // Bottom cell
         if (pos_y < boardSize - 1) {
             neighbours.add(getCell(pos_x, pos_y + 1));
-        }else if(pos_y == boardSize - 1){
+        } else if (pos_y == boardSize - 1) {
             neighbours.add(getCell(pos_x, 0));
         }
 
