@@ -25,6 +25,9 @@ public class Main extends Application {
             switch (event.getCode()) {
                 case R:  board.generateRandomBoard(); break;
                 case SPACE: board.toggleGame(); break;
+                case C:
+                    board.killAll();
+                    break;
             }
         });
 

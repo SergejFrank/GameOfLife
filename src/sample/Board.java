@@ -202,4 +202,10 @@ public class Board {
 
         return neighbours;
     }
+
+    public void killAll(){
+        for(Cell cell : getCells()){
+            cell.suicide();
+        }
+    }
 }
