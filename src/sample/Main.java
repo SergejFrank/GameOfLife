@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -11,6 +12,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Game Of Life");
+
+        stage.setOnCloseRequest(e -> Platform.exit());
 
         Group cellGroup = new Group();
         final Board board = new Board(40);
