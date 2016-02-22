@@ -1,8 +1,9 @@
 package sample;
 
+import java.util.ArrayList;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import java.util.ArrayList;
 
 public class Cell extends Rectangle {
 
@@ -23,10 +24,8 @@ public class Cell extends Rectangle {
         setPosition(pos_x, pos_y);
 
         this.setOnMouseClicked(event -> toggleAlive());
-
         this.setOnDragDetected(event -> this.startFullDrag());
-
-        this.setOnMouseDragEntered(event -> toggleAlive());
+        this.setOnMouseDragEntered(event -> this.toggleAlive());
     }
 
     public int[] getPos() {
@@ -47,19 +46,19 @@ public class Cell extends Rectangle {
         changeColor();
     }
 
-    public void calculateNextRound(){
+    public void calculateNextRound() {
         int neighboursSize = getCountAliveNeighbours();
 
-        if (isAlive() && neighboursSize >= 2 && neighboursSize <= 3){
+        if (isAlive() && neighboursSize >= 2 && neighboursSize <= 3) {
             revive();
-        }else if((isAlive() && neighboursSize < 2) || neighboursSize > 3){
+        } else if ((isAlive() && neighboursSize < 2) || neighboursSize > 3) {
             kill();
-        }else if(!isAlive() && neighboursSize == 3){
+        } else if (!isAlive() && neighboursSize == 3) {
             revive();
         }
     }
 
-    public void setNeighbours(ArrayList<Cell> neighbours){
+    public void setNeighbours(ArrayList<Cell> neighbours) {
         this.neighbours = neighbours;
     }
 
@@ -76,7 +75,7 @@ public class Cell extends Rectangle {
         isAliveNextRound = false;
     }
 
-    public boolean isAlive(){
+    public boolean isAlive() {
         return isAlive;
     }
 
@@ -88,10 +87,10 @@ public class Cell extends Rectangle {
         }
     }
 
-    private int getCountAliveNeighbours(){
+    private int getCountAliveNeighbours() {
         int aliveNeighbours = 0;
-        for (Cell neighbourCell:neighbours) {
-            if(neighbourCell.isAlive()){
+        for (Cell neighbourCell : neighbours) {
+            if (neighbourCell.isAlive()) {
                 aliveNeighbours++;
             }
         }
