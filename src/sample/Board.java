@@ -34,6 +34,10 @@ public class Board {
             nextRound();
     }
 
+    public void pauseGame(){
+        gameStarted = false;
+    }
+
     public void generateRandomBoard(){
             for (Cell cell: getCells()) {
                 if(rnd.nextBoolean()){

@@ -13,11 +13,11 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         stage.setTitle("Game Of Life");
 
-        stage.setOnCloseRequest(e -> Platform.exit());
-
         Group cellGroup = new Group();
         final Board board = new Board(40);
         cellGroup.getChildren().addAll(board.getCells());
+
+        stage.setOnCloseRequest(e -> board.pauseGame());
 
         Scene scene = new Scene(cellGroup, board.getBoardSize(), board.getBoardSize(), Color.WHITE);
 
