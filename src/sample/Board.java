@@ -10,8 +10,9 @@ public class Board {
 
     private Cell[][] cells;
     private final int boardSize;
-    private boolean gameStarted = false;
+    private GameStatus gameStatus = GameStatus.PAUSED;
     private static Random rnd = new Random();
+    private int delay = 50;
 
     public Board(int boardSize) {
         this.boardSize = boardSize;
@@ -30,12 +31,16 @@ public class Board {
     }
 
     public void toggleGame() {
-        gameStarted = !gameStarted;
+        if(gameStatus.isStarted()){
+            gameStatus = GameStatus.PAUSED;
+        }else{
+            gameStatus = GameStatus.STARTED;
+        }
         nextRound();
     }
 
     public void pauseGame() {
-        gameStarted = false;
+        gameStatus = GameStatus.PAUSED;
     }
 
     public void generateRandomBoard() {
@@ -44,6 +49,10 @@ public class Board {
                 cell.toggleAlive();
             }
         }
+    }
+
+    public GameStatus getGameStatus(){
+        return this.gameStatus;
     }
 
     public ArrayList<Cell> getCells() {
@@ -69,18 +78,15 @@ public class Board {
     }
 
     private void nextRound() {
-        if (gameStarted) {
+        if (gameStatus.isStarted()) {
             final Task task = new Task<Void>() {
                 @Override
                 public Void call() {
 
-                    calculateNextRound();
-                    for (Cell cell : getCells()) {
-                        cell.nextRound();
-                    }
+                    nextStep();
 
                     try {
-                        Thread.sleep(55);
+                        Thread.sleep(delay);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -92,6 +98,21 @@ public class Board {
             };
             new Thread(task).start();
         }
+    }
+
+    public void nextStep(){
+        calculateNextRound();
+        for (Cell cell : getCells()) {
+            cell.nextRound();
+        }
+    }
+
+    public void setDelay(int delay){
+        this.delay = delay;
+    }
+
+    public int getDelay(){
+        return this.delay;
     }
 
     private ArrayList<Cell> getNeighbours(Cell cell) {

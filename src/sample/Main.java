@@ -1,11 +1,13 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 public class Main extends Application {
 
@@ -13,13 +15,20 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         stage.setTitle("Game Of Life");
 
+
+        Pane mainPane = new Pane();
         Group cellGroup = new Group();
         final Board board = new Board(40);
         cellGroup.getChildren().addAll(board.getCells());
-
         stage.setOnCloseRequest(e -> board.pauseGame());
+        cellGroup.setTranslateX(100);
 
-        Scene scene = new Scene(cellGroup, board.getBoardSize(), board.getBoardSize(), Color.WHITE);
+        Menu gameMenu = new Menu(board);
+
+        mainPane.getChildren().add(cellGroup);
+        mainPane.getChildren().add(gameMenu);
+
+        Scene scene = new Scene(mainPane, board.getBoardSize()+100, board.getBoardSize(), Color.WHITE);
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -29,7 +38,10 @@ public class Main extends Application {
                     board.killAll();
                     break;
             }
+            gameMenu.update();
         });
+
+
 
         stage.setScene(scene);
         stage.show();
