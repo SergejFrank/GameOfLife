@@ -1,4 +1,4 @@
-package sample;
+package otto.de;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -6,7 +6,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.util.StringConverter;
 
 import java.text.DecimalFormat;
 

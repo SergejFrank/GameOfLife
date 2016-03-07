@@ -1,4 +1,4 @@
-package sample;
+package otto.de.test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -6,6 +6,8 @@ import static org.hamcrest.core.Is.is;
 import java.util.ArrayList;
 
 import org.junit.Test;
+
+import otto.de.Cell;
 
 public class CellTest {
 

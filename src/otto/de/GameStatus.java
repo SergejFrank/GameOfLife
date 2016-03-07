@@ -1,4 +1,4 @@
-package sample;
+package otto.de;
 
 public enum GameStatus {
     STARTED(true), PAUSED(false);

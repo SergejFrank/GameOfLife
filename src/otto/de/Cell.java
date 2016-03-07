@@ -1,4 +1,4 @@
-package sample;
+package otto.de;
 
 import java.util.ArrayList;
 

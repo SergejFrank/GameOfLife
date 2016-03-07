@@ -1,4 +1,4 @@
-package sample;
+package otto.de;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,9 +31,9 @@ public class Board {
     }
 
     public void toggleGame() {
-        if(gameStatus.isStarted()){
+        if (gameStatus.isStarted()) {
             gameStatus = GameStatus.PAUSED;
-        }else{
+        } else {
             gameStatus = GameStatus.STARTED;
         }
         nextRound();
@@ -51,7 +51,7 @@ public class Board {
         }
     }
 
-    public GameStatus getGameStatus(){
+    public GameStatus getGameStatus() {
         return this.gameStatus;
     }
 
@@ -83,7 +83,7 @@ public class Board {
                 @Override
                 public Void call() {
 
-                    nextStep();
+                    nextCycle();
 
                     try {
                         Thread.sleep(delay);
@@ -100,18 +100,18 @@ public class Board {
         }
     }
 
-    public void nextStep(){
+    public void nextCycle() {
         calculateNextRound();
         for (Cell cell : getCells()) {
             cell.nextRound();
         }
     }
 
-    public void setDelay(int delay){
+    public void setDelay(int delay) {
         this.delay = delay;
     }
 
-    public int getDelay(){
+    public int getDelay() {
         return this.delay;
     }
 
@@ -139,93 +139,8 @@ public class Board {
         return neighbours;
     }
 
-    private ArrayList<Cell> getNeighboursOld(Cell cell) {
-        ArrayList<Cell> neighbours = new ArrayList<>();
-        int[] cellPos = cell.getPos();
-        int pos_x = cellPos[0];
-        int pos_y = cellPos[1];
-
-        // Left cells
-        if (pos_x > 0) {
-            neighbours.add(getCell(pos_x - 1, pos_y));
-
-            if (pos_y > 0) {
-                neighbours.add(getCell(pos_x - 1, pos_y - 1));
-            } else if (pos_y == 0) {
-                neighbours.add(getCell(pos_x - 1, boardSize - 1));
-            }
-
-            if (pos_y < boardSize - 1) {
-                neighbours.add(getCell(pos_x - 1, pos_y + 1));
-            } else if (pos_y == boardSize - 1) {
-                neighbours.add(getCell(pos_x - 1, 0));
-            }
-        } else if (pos_x == 0) {
-            neighbours.add(getCell(boardSize - 1, pos_y));
-
-            if (pos_y > 0) {
-                neighbours.add(getCell(boardSize - 1, pos_y - 1));
-            } else if (pos_y == 0) {
-                neighbours.add(getCell(boardSize - 1, boardSize - 1));
-            }
-
-            if (pos_y < boardSize - 1) {
-                neighbours.add(getCell(boardSize - 1, pos_y + 1));
-            } else if (pos_y == boardSize - 1) {
-                neighbours.add(getCell(boardSize - 1, 0));
-            }
-        }
-
-        // Right cells
-        if (pos_x < boardSize - 1) {
-            neighbours.add(getCell(pos_x + 1, pos_y));
-
-            if (pos_y > 0) {
-                neighbours.add(getCell(pos_x + 1, pos_y - 1));
-            } else if (pos_y == 0) {
-                neighbours.add(getCell(pos_x + 1, boardSize - 1));
-            }
-
-            if (pos_y < boardSize - 1) {
-                neighbours.add(getCell(pos_x + 1, pos_y + 1));
-            } else if (pos_y == boardSize - 1) {
-                neighbours.add(getCell(pos_x + 1, 0));
-            }
-        } else if (pos_x == boardSize - 1) {
-            neighbours.add(getCell(0, pos_y));
-
-            if (pos_y > 0) {
-                neighbours.add(getCell(0, pos_y - 1));
-            } else if (pos_y == 0) {
-                neighbours.add(getCell(0, boardSize - 1));
-            }
-
-            if (pos_y < boardSize - 1) {
-                neighbours.add(getCell(0, pos_y + 1));
-            } else if (pos_y == boardSize - 1) {
-                neighbours.add(getCell(0, 0));
-            }
-        }
-
-        // Top cell
-        if (pos_y > 0) {
-            neighbours.add(getCell(pos_x, pos_y - 1));
-        } else if (pos_y == 0) {
-            neighbours.add(getCell(pos_x, boardSize - 1));
-        }
-
-        // Bottom cell
-        if (pos_y < boardSize - 1) {
-            neighbours.add(getCell(pos_x, pos_y + 1));
-        } else if (pos_y == boardSize - 1) {
-            neighbours.add(getCell(pos_x, 0));
-        }
-
-        return neighbours;
-    }
-
-    public void killAll(){
-        for(Cell cell : getCells()){
+    public void killAll() {
+        for (Cell cell : getCells()) {
             cell.suicide();
         }
     }

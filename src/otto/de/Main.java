@@ -1,4 +1,4 @@
-package sample;
+package otto.de;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -6,8 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.awt.*;
 
 public class Main extends Application {
 
@@ -23,7 +21,7 @@ public class Main extends Application {
         stage.setOnCloseRequest(e -> board.pauseGame());
         cellGroup.setTranslateX(100);
 
-        Menu gameMenu = new Menu(board);
+        otto.de.Menu gameMenu = new otto.de.Menu(board);
 
         mainPane.getChildren().add(cellGroup);
         mainPane.getChildren().add(gameMenu);
